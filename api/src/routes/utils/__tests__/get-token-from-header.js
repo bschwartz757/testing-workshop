@@ -15,11 +15,22 @@
 // tests to ensure that that use case is always supported.
 import getTokenFromHeader from '../get-token-from-header'
 
-test('this is the title of your test', () => {
-  // this is where you put your test code. Write code that will
-  // throw an error if getTokenFromHeader has a bug. The `expect`
-  // global is a utility that makes writting such assertions easier,
-  // but you can do it however you like.
+const getReq = function(authorization) {
+  return {headers: {authorization}}
+}
+
+test('it returns null if there is no token', () => {
+  const req = getReq()
+  const result = getTokenFromHeader(req)
+  expect(result).toBeNull()
+})
+
+test('it returns token if provided', () => {
+  const token = 'some.fake.token'
+  const authorization = `Token ${token}`
+  const req = getReq(authorization)
+  const result = getTokenFromHeader(req)
+  expect(result).toBe(token)
 })
 
 //////// Elaboration & Feedback /////////
@@ -31,8 +42,8 @@ test('this is the title of your test', () => {
 /*
 http://ws.kcd.im/?ws=Testing&e=API%20Unit&em=
 */
-test.skip('I submitted my elaboration and feedback', () => {
-  const submitted = false // change this when you've submitted!
+test('I submitted my elaboration and feedback', () => {
+  const submitted = true // change this when you've submitted!
   expect(true).toBe(submitted)
 })
 ////////////////////////////////

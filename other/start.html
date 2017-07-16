@@ -11,7 +11,7 @@
   <script>
 // adds two input values together
 function addInputValues(a, b) {
-  return a + b
+  return Number(a) + Number(b)
 }
 
 const form = document.body.querySelector('form')
@@ -28,7 +28,10 @@ form.addEventListener('submit', e => {
 // call addInputValues with numbers as strings
 // (because input1.value and input2.value will always be stirngs)
 // For example:
-// const result = addInputValues('3', '4')
+const result = addInputValues('3', '4')
+if (result !== 7) {
+  throw new Error(`Expected 7, but got ${result}!`)
+}
 // If the result is not the sum of those numbers (ie 7),
 // then throw an error!
 
