@@ -1,5 +1,8 @@
 import mongoose from 'mongoose'
-import {getUserConstructor, generateUser} from './helpers/utils'
+import {
+  getUserConstructor,
+  generateUser
+} from './helpers/utils'
 
 // Go ahead and add your test here at the top.
 // You can create a user with an image like:
@@ -12,7 +15,16 @@ import {getUserConstructor, generateUser} from './helpers/utils'
 // NOTE: If the user doesn't have an image, that's
 // totally fine (the client will handle the default)
 // so don't worry about checking that case.
-
+test('toProfileJSONFor() returns the correct object', () => {
+  const userOverrides = {
+    image: 'http://example.com/avatar.png',
+    username: 'tim',
+    bio: 'shaking hands',
+  }
+  const user = generateUser(userOverrides)
+  const result = user.toProfileJSONFor()
+  expect(result).toMatchObject(userOverrides)
+})
 
 //////// Elaboration & Feedback /////////
 // When you've finished with the exercises:
@@ -23,8 +35,8 @@ import {getUserConstructor, generateUser} from './helpers/utils'
 /*
 http://ws.kcd.im/?ws=Testing&e=Fix%20Bugs&em=
 */
-test.skip('I submitted my elaboration and feedback', () => {
-  const submitted = false // change this when you've submitted!
+test('I submitted my elaboration and feedback', () => {
+  const submitted = true // change this when you've submitted!
   expect(true).toBe(submitted)
 })
 ////////////////////////////////
@@ -80,7 +92,9 @@ test('can favorite an article', () => {
 })
 
 test('does not double favorite an article', () => {
-  const user = generateUser({favorites: []})
+  const user = generateUser({
+    favorites: []
+  })
   const articleId = mongoose.Types.ObjectId()
   user.favorite(articleId)
   user.favorite(articleId)
@@ -127,7 +141,9 @@ test('can unfollow a user', () => {
 })
 
 test('does not double follow a user', () => {
-  const user = generateUser({following: []})
+  const user = generateUser({
+    following: []
+  })
   const userId = mongoose.Types.ObjectId()
   user.follow(userId)
   user.follow(userId)
