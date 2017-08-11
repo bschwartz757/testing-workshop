@@ -1,6 +1,8 @@
 import axios from 'axios'
 import faker from 'faker'
-import {generateArticleForClient} from '../../../other/generate/article'
+import {
+  generateArticleForClient
+} from '../../../other/generate/article'
 import generateUserData from '../../../other/generate/user'
 // you're going to need to start the server before all the tests
 // start and close the server after all the tests are finished.
@@ -36,6 +38,23 @@ const api = axios.create({
 // stuff
 const getUser = res => res.data.user
 
+let server
+
+beforeAll(async() => {
+  server = await startServer()
+})
+
+afterAll(done => {
+  server.close(done)
+})
+
+test('Can get articles with a limit', async() => {
+  const limit = 4
+  const articles = await api.get(`articles?limit=${limit}`)
+    .then(response => response.data.articles)
+  expect(articles).toHaveLength(limit)
+})
+
 //////////////////////
 // 👋 Put your tests here
 ///////////////////////
@@ -47,9 +66,18 @@ const getUser = res => res.data.user
 async function createNewUser(overrides) {
   const password = faker.internet.password()
   const userData = generateUserData(overrides)
-  const {email, username} = userData
+  const {
+    email,
+    username
+  } = userData
   const user = await api
-    .post('users', {user: {email, password, username}})
+    .post('users', {
+      user: {
+        email,
+        password,
+        username
+      }
+    })
     .then(getUser)
   return {
     user,

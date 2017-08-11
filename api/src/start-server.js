@@ -25,7 +25,9 @@ async function start() {
   if (logger.getLevel() < 3) {
     app.use(morgan('dev'))
   }
-  app.use(bodyParser.urlencoded({extended: false}))
+  app.use(bodyParser.urlencoded({
+    extended: false
+  }))
   app.use(bodyParser.json())
 
   app.use(methodOverride())
@@ -34,7 +36,9 @@ async function start() {
   app.use(
     session({
       secret: 'conduit',
-      cookie: {maxAge: 60000},
+      cookie: {
+        maxAge: 60000
+      },
       resave: false,
       saveUninitialized: false,
     }),
